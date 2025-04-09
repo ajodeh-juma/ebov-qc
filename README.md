@@ -58,6 +58,9 @@ Sierra Leone.
 
 ## Setting up the project directory
 
+Since the data has been downloaded already, we will use the copy available in
+the github repository for the project.
+
 ```
 cd
 ```
