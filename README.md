@@ -163,7 +163,7 @@ accessions and sampling dates
 		| csvtk -H plot box --ylab "GC-content" --xlab "Samples" --title "EBOV GC content" -o 4_plots/gc-content.pdf
 		```
 
-	- plot Ns
+	- plot Ns distibution
 
 		```
 		seqkit grep -r -p '^PP' 1_data/ebov.fasta \
