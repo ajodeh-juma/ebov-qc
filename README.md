@@ -23,7 +23,9 @@ https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html.
 	> **Note**
 
 	- Install the correct executable depending on your OS
-	- If unable to download AliView with the program files depending on your OS, You can use `conda`
+	- If unable to download AliView with the program files depending on your OS,
+	You can use `conda`
+	
 	```
 	conda create -n aliview -c conda-forge -c bioconda aliview
 	```
