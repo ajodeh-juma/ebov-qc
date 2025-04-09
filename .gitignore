@@ -1,0 +1,7 @@
+2_mafft/
+3_iqtree/
+1_data/accessions.txt
+1_data/accessions_dates.txt
+1_data/accessions_keypairs.txt
+1_data/ebov_renamed.fasta
+.DS_Store
