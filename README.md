@@ -67,6 +67,7 @@ cd $HOME/bioinf-qms
 2. Inspect the data
 
 	- **Examine the `ebov.fasta` file that you downloaded?**
+
     
 	```
 	cat 1_data/ebov.fasta
@@ -74,11 +75,17 @@ cd $HOME/bioinf-qms
     
     - **How many sequences are in the `ebov.fasta` file**
 
-	`grep '>' 1_data/ebov.fasta | wc -l`
+
+	```
+	grep '>' 1_data/ebov.fasta | wc -l
+	```
         
     - **How many records are in the metadata `ebov_metadata.tsv` file**
 
-	`wc -l 1_data/ebov_metadata.tsv`
+
+	```
+	wc -l 1_data/ebov_metadata.tsv
+	```
         
     - **What is the shortest sequence length in the metadata record `ebov_metadata.tsv`**
     
