@@ -53,7 +53,7 @@ cd
 ```
 
 ```
-mkdir -p $HOME/bioinf-qms/{1_data,2_mafft,3_iqtree}
+mkdir -p $HOME/ebov-qc/{1_data,2_mafft,3_iqtree}
 ```
 
 ```
