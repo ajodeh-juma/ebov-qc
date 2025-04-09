@@ -37,14 +37,24 @@ https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html.
 	- Install the correct executable depending on your OS
 
 ## Dataset 
-We will construct a dataset containing about 200 Ebola virus sequences from West Africa following the 2013-2016 epidemic. These sequences will be obtained from Pathoplexus (https://pathoplexus.org/).
+We will construct a dataset containing about 200 Ebola virus sequences from West
+Africa following the 2013-2016 epidemic. These sequences will be obtained from
+Pathoplexus (https://pathoplexus.org/).
+
+<br>
+<left><img src="img/Fig1.png" alt="Screenshot of Pathoplexus" width="1532"/></left>
+<br>
+
+
+## Retrieving the data
 
 We will collate data collected between June 01, 2013, and August 30, 2014 from
 Sierra Leone.
 
 <br>
-<left><img src="img/Fig1.png" alt="Screenshot of Pathoplexus" width="1532"/></left>
+<left><img src="img/Figure1.png" alt="Screenshot of data retrieval" width="1532"/></left>
 <br>
+
 
 ## Setting up the project directory
 
@@ -52,17 +62,20 @@ Sierra Leone.
 cd
 ```
 
+## Have a local copy of the repository on your laptop
+
 ```
-mkdir -p $HOME/ebov-qc/{1_data,2_mafft,3_iqtree}
+git clone https://github.com/ajodeh-juma/ebov-qc.git
 ```
 
 ```
-cd $HOME/bioinf-qms
+cd ebov-qc
 ```
 
-## Retrieve the data
+```
+mkdir -p ./{1_data,2_mafft,3_iqtree}
+```
 
-1. Download the metadata and the sequences in the `1_data` directory and name the **fasta** as `ebov.fasta` and the **metadata** as `ebov_metadata.tsv`
 
 2. Inspect the data
 
@@ -70,7 +83,7 @@ cd $HOME/bioinf-qms
 
     
 	```
-	cat 1_data/ebov.fasta
+	cat ./1_data/ebov.fasta
 	```
     
     - **How many sequences are in the `ebov.fasta` file**
