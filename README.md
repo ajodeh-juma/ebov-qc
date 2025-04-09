@@ -87,14 +87,14 @@ mkdir -p ./{1_data,2_mafft,3_iqtree}
 
 
 	```
-	grep '>' 1_data/ebov.fasta | wc -l
+	grep '>' ./1_data/ebov.fasta | wc -l
 	```
         
     - **How many records are in the metadata `ebov_metadata.tsv` file**
 
 
 	```
-	wc -l 1_data/ebov_metadata.tsv
+	wc -l ./1_data/ebov_metadata.tsv
 	```
         
     - **What is the shortest sequence length in the metadata record `ebov_metadata.tsv`**
@@ -124,19 +124,19 @@ conda activate seqkit
 2. We will extract the sequence ID using `seqkit seq` subcommand and manipulate the extracted IDs using `csvtk`
 
 ```
-seqkit seq -n -i 1_data/ebov.fasta > 1_data/accessions.txt
+seqkit seq -n -i ./1_data/ebov.fasta > ./1_data/accessions.txt
 ```
 
 ```
-tail -n+2 1_data/ebov_metadata.tsv | cut -f1,11 > 1_data/accessions_dates.txt
+tail -n+2 ./1_data/ebov_metadata.tsv | cut -f1,11 > ./1_data/accessions_dates.txt
 ```
 
 ```
-csvtk join -H -t 1_data/accessions.txt 1_data/accessions_dates.txt > 1_data/accessions_keypairs.txt
+csvtk join -H -t ./1_data/accessions.txt ./1_data/accessions_dates.txt > ./1_data/accessions_keypairs.txt
 ```
 
 ```
-seqkit replace -p "(.+)" -r '$1|{kv}' -k 1_data/accessions_keypairs.txt 1_data/ebov.fasta > 1_data/ebov_renamed.fasta
+seqkit replace -p "(.+)" -r '$1|{kv}' -k ./1_data/accessions_keypairs.txt ./1_data/ebov.fasta > ./1_data/ebov_renamed.fasta
 ```
 
 ```
@@ -159,7 +159,7 @@ conda activate mafft
 
 ```
 
-mafft --thread 4 1_data/ebov_renamed.fasta > 2_mafft/ebov_aln.fasta
+mafft --thread 4 ./1_data/ebov_renamed.fasta > ./2_mafft/ebov_aln.fasta
 
 ```
 
@@ -214,7 +214,7 @@ conda activate seqkit
 ```
 
 ```
-seqkit rmdup -s -D  2_mafft/duplicates.txt < 2_mafft/ebov_aln.fasta > 2_mafft/ebov_dedup_aln.fasta
+seqkit rmdup -s -D  ./2_mafft/duplicates.txt < ./2_mafft/ebov_aln.fasta > ./2_mafft/ebov_dedup_aln.fasta
 ```
 **How many duplicated records are in the alignment? List the accessions of the duplicated records**
 
@@ -238,7 +238,7 @@ conda activate iqtree
 ```
 
 ```
-iqtree -s 2_mafft/ebov_dedup_aln.fasta -m HKY -T 4 -bb 1000 -redo --prefix 3_iqtree/ebov
+iqtree -s ./2_mafft/ebov_dedup_aln.fasta -m HKY -T 4 -bb 1000 -redo --prefix ./3_iqtree/ebov
 ```
 
 ```
@@ -288,28 +288,16 @@ Regardless of the underlying explanation, it is common practice to exclude such 
 
 ## Remove outlier sequences
 
-
-
 - Under the **Root-to-tip** panel, highlight the sequences with higher variance.
-- Navigate to the **Tree** panel and copy the highlighted sequences. On MacOS hit the `command+V` keys while on Windows, hit the `Ctrl+C` button.
-- On the Terminal, type the command:
-
-```
-vim 3_iqtree/outliers.txt
-```
-
-- Paste the copied sequences in the `outliers.txt` file
-- Hit `esc` button followed by the `shift + :` key
-- Type `wq` to save the file
+- Navigate to the **Tree** panel and copy the highlighted sequences. 
 
 
 ```
 conda activate seqkit
 ```
 
-
 ```
-seqkit grep -v -f 3_iqtree/outliers.txt 2_mafft/ebov_dedup_aln.fasta > 3_iqtree/ebov_aln_clean.fasta
+seqkit grep -v -f ./outliers.txt ./2_mafft/ebov_dedup_aln.fasta > ./3_iqtree/ebov_aln_clean.fasta
 ```
 
 ```
@@ -324,7 +312,7 @@ conda activate iqtree
 ```
 
 ```
-iqtree -s 3_iqtree/ebov_aln_clean.fasta -m HKY -T 4 -bb 1000 -redo --prefix 3_iqtree/ebov_clean
+iqtree -s ./3_iqtree/ebov_aln_clean.fasta -m HKY -T 4 -bb 1000 -redo --prefix ./3_iqtree/ebov_clean
 ```
 
 ## Visual the temporal signal of the new tree
