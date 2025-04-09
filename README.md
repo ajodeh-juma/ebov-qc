@@ -140,7 +140,7 @@ accessions and sampling dates
      GC, length and number of Ns in the genomes
 
 		```
-		seqkit grep -r -p '^PP' 4_fasta/*.fasta \
+		seqkit grep -r -p '^PP' 1_data/ebov.fasta \
 		| seqkit fx2tab -l --gc -C N \
 		| cut -f4,5,6
 		```
@@ -148,7 +148,7 @@ accessions and sampling dates
 	- plot distibution of genome lengths
 
 		```
-		seqkit grep -r -p '^PP' 4_fasta/*.fasta \
+		seqkit grep -r -p '^PP' 1_data/ebov.fasta \
 		| seqkit fx2tab -l \
 		| cut -f4 \
 		| csvtk -H plot hist --xlab Length --title "EBOV length distribution" -o 4_plots/length-distribution.pdf
@@ -157,7 +157,7 @@ accessions and sampling dates
 	- plot boxplot of the GC content
 
 		```
-		seqkit grep -r -p '^PP' 4_fasta/*.fasta \
+		seqkit grep -r -p '^PP' 1_data/ebov.fasta \
 		| seqkit fx2tab --gc \
 		| cut -f4 \
 		| csvtk -H plot box --ylab "GC-content" --xlab "Samples" --title "EBOV GC content" -o 4_plots/gc-content.pdf
@@ -166,11 +166,11 @@ accessions and sampling dates
 	- plot Ns
 
 		```
-		seqkit grep -r -p '^PP' 4_fasta/*.fasta \
+		seqkit grep -r -p '^PP' 1_data/ebov.fasta \
 		| seqkit fx2tab -C N \
 		| cut -f4 \
 		| csvtk -H plot hist --xlab "Ns" --title "EBOV Ns content" -o 4_plots/ns-content.pdf
-	```
+		```
 
 
 
