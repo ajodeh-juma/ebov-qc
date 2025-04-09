@@ -70,7 +70,7 @@ cd ebov-qc
 ```
 
 ```
-mkdir -p ./{1_data,2_mafft,3_iqtree}
+mkdir -p ./{1_data,2_mafft,3_iqtree,4_plots}
 ```
 
 
@@ -113,7 +113,7 @@ It is considered good practice to have the sequence labels contain the sampling
 times, which enables **TempEst** to extract these sampling times from the
 sequence labels after providing the date format. 
 
-## Manipulate the data to filter low coverage genomes and prepare for analysis
+## Manipulate the data
 
 We will manipulate the data using `seqkit`
 (https://github.com/shenwei356/seqkit) to generate sequence headers with
@@ -132,8 +132,49 @@ accessions and sampling dates
 	conda activate seqkit
 	```
 
+2. `seqkit` and `csvtk` are powerful tools that are often used to manipulate
+   data in bioinformatics. Here we will use a combination of the tow to see the
+   robust features of these tools.
+   
+   - match all lines beginning with `PP` then convert to tab while outputting
+     GC, length and number of Ns in the genomes
 
-2. Compute the percentage coverage of the genomes and only retain those that
+		```
+		seqkit grep -r -p '^PP' 4_fasta/*.fasta \
+		| seqkit fx2tab -l --gc -C N \
+		| cut -f4,5,6
+		```
+
+	- plot distibution of genome lengths
+
+		```
+		seqkit grep -r -p '^PP' 4_fasta/*.fasta \
+		| seqkit fx2tab -l \
+		| cut -f4 \
+		| csvtk -H plot hist --xlab Length --title "EBOV length distribution" -o 4_plots/length-distribution.pdf
+		```
+
+	- plot boxplot of the GC content
+
+		```
+		seqkit grep -r -p '^PP' 4_fasta/*.fasta \
+		| seqkit fx2tab --gc \
+		| cut -f4 \
+		| csvtk -H plot box --ylab "GC-content" --xlab "Samples" --title "EBOV GC content" -o 4_plots/gc-content.pdf
+		```
+
+	- plot Ns
+
+		```
+		seqkit grep -r -p '^PP' 4_fasta/*.fasta \
+		| seqkit fx2tab -C N \
+		| cut -f4 \
+		| csvtk -H plot hist --xlab "Ns" --title "EBOV Ns content" -o 4_plots/ns-content.pdf
+	```
+
+
+
+3. Compute the percentage coverage of the genomes and only retain those that
    have >99% genome coverage
    
    - get the minimum genome size to select
@@ -158,7 +199,7 @@ accessions and sampling dates
 	   seqkit grep -f ./1_data/accessions_to_select.txt ./1_data/ebov.fasta > ./1_data/ebov_selected.fasta
 		```
 
-3. We will now extract the sequence ID using `seqkit seq` subcommand and manipulate the extracted IDs using `csvtk`
+4. We will now extract the sequence ID using `seqkit seq` subcommand and manipulate the extracted IDs using `csvtk`
 
 	```
 	seqkit seq -n -i ./1_data/ebov_selected.fasta > ./1_data/accessions.txt
