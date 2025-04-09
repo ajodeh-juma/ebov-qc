@@ -68,7 +68,9 @@ cd $HOME/bioinf-qms
 
 	- **Examine the `ebov.fasta` file that you downloaded?**
     
-	`cat 1_data/ebov.fasta`
+	```
+	cat 1_data/ebov.fasta
+	```
     
     - **How many sequences are in the `ebov.fasta` file**
 
