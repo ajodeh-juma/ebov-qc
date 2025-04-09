@@ -10,8 +10,8 @@
 
 1. Installing conda. 
 
-Note: We recommend installing the minimal version of conda such as miniconda or miniforge 
-https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html.
+Note: We recommend installing the minimal version of conda such as miniconda or
+miniforge https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html.
 
 > **Note**
    
@@ -79,23 +79,23 @@ mkdir -p ./{1_data,2_mafft,3_iqtree}
 	- **Examine the `ebov.fasta` file that you downloaded?**
 
     
-	```
-	cat ./1_data/ebov.fasta
-	```
+		```
+		cat ./1_data/ebov.fasta
+		```
     
     - **How many sequences are in the `ebov.fasta` file**
 
 
-	```
-	grep '>' ./1_data/ebov.fasta | wc -l
-	```
+		```
+		grep '>' ./1_data/ebov.fasta | wc -l
+		```
         
     - **How many records are in the metadata `ebov_metadata.tsv` file**
 
 
-	```
-	wc -l ./1_data/ebov_metadata.tsv
-	```
+		```
+		wc -l ./1_data/ebov_metadata.tsv
+		```
         
     - **What is the shortest sequence length in the metadata record `ebov_metadata.tsv`**
     
@@ -104,53 +104,86 @@ mkdir -p ./{1_data,2_mafft,3_iqtree}
     - **How many sequences have a length of 18921 bp**
 
 
-It is considered good practice to have the sequence labels contain the sampling times, which enables **TempEst** to extract these sampling times from the sequence labels after providing the date format. 
+It is considered good practice to have the sequence labels contain the sampling
+times, which enables **TempEst** to extract these sampling times from the
+sequence labels after providing the date format. 
 
-## Manipulate the data
+## Manipulate the data to filter low coverage genomes and prepare for analysis
 
-We will manipulate the data using `seqkit` (https://github.com/shenwei356/seqkit) to generate sequence headers with accessions and sampling dates
+We will manipulate the data using `seqkit`
+(https://github.com/shenwei356/seqkit) to generate sequence headers with
+accessions and sampling dates
 
-1. Create a `conda` environment names `seqkit` and install both `seqkit` and `csvtk`. If you installed `miniforge` or `miniconda` use `mamba` for creation and installation of `seqkit` and `csvtk`
+
+1. Create a `conda` environment names `seqkit` and install both `seqkit` and
+   `csvtk`. If you installed `miniforge` or `miniconda` use `mamba` for creation
+   and installation of `seqkit` and `csvtk`
+
+	```
+	conda create -n seqkit -c conda-forge -c bioconda seqkit csvtk
+	```
+
+	```
+	conda activate seqkit
+	```
 
 
-```
-conda create -n seqkit -c conda-forge -c bioconda seqkit csvtk
-```
+2. Compute the percentage coverage of the genomes and only retain those that
+   have >99% genome coverage
 
-```
-conda activate seqkit
-```
+   The genome size of the Ebola virus Mayinya strain is 18959
+   https://www.ncbi.nlm.nih.gov/search/all/?term=AF086833
+   
+   - get the minimum genome size to select
+   
+   		```
+    	echo "0.99*18959" | bc
+		```
 
-2. We will extract the sequence ID using `seqkit seq` subcommand and manipulate the extracted IDs using `csvtk`
+   - extract the accessions of the genomes whose genome sizes are greater or
+     equal to the minimum size above (round off)
 
-```
-seqkit seq -n -i ./1_data/ebov.fasta > ./1_data/accessions.txt
-```
+	 ```
+	 tail -n+2 ./1_data/ebov_metadata.tsv | awk -F'\t' '{ if ($10 >= 18770)
+	 print $1 }' > ./1_data/accessions_to_select.txt
+	 ```
+	 > **Note**
+	 - **How many genomes have been filtered out? How many have been left after the filtering process?**
 
-```
-tail -n+2 ./1_data/ebov_metadata.tsv | cut -f1,11 > ./1_data/accessions_dates.txt
-```
+   - filter out the genomes
+   
+   		```
+	   seqkit grep -f ./1_data/accessions_to_select.txt ./1_data/ebov.fasta > ./1_data/ebov_selected.fasta
+		```
 
-```
-csvtk join -H -t ./1_data/accessions.txt ./1_data/accessions_dates.txt > ./1_data/accessions_keypairs.txt
-```
+3. We will now extract the sequence ID using `seqkit seq` subcommand and manipulate the extracted IDs using `csvtk`
 
-```
-seqkit replace -p "(.+)" -r '$1|{kv}' -k ./1_data/accessions_keypairs.txt ./1_data/ebov.fasta > ./1_data/ebov_renamed.fasta
-```
+	```
+	seqkit seq -n -i ./1_data/ebov_selected.fasta > ./1_data/accessions.txt
+	```
 
-```
-conda deactivate
-```
+	```
+	tail -n+2 ./1_data/ebov_metadata.tsv | cut -f1,11 > ./1_data/accessions_dates.txt
+	```
+
+	```
+	csvtk join -H -t ./1_data/accessions.txt ./1_data/accessions_dates.txt > ./1_data/accessions_keypairs.txt
+	```
+
+	```
+	seqkit replace -p "(.+)" -r '$1|{kv}' -k ./1_data/accessions_keypairs.txt ./1_data/ebov_selected.fasta > ./1_data/ebov_renamed.fasta
+	```
+
+	```
+	conda deactivate
+	```
 
 ## Multiple sequence alignment
-We will align the collected data using `MAFFT` (Nakamura et al. 2018) followed by manual curation in `AliView` (Larsson, 2014).
-
-
+We will align the collected data using `MAFFT` (Nakamura et al. 2018) followed
+by manual curation in `AliView` (Larsson, 2014).
 
 ```
 conda create -n mafft -c conda-forge -c bioconda mafft
-
 ```
 
 ```
@@ -158,9 +191,7 @@ conda activate mafft
 ```
 
 ```
-
 mafft --thread 4 ./1_data/ebov_renamed.fasta > ./2_mafft/ebov_aln.fasta
-
 ```
 
 ```
@@ -199,6 +230,11 @@ We will assess the alignment in `AliView` to identify any issues.
 	aliview
 	```
 
+	- deactivate the environment
+
+	```
+	conda activate seqkit
+	```
 
 
 
