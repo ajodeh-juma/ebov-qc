@@ -23,12 +23,6 @@ https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html.
 	> **Note**
 
 	- Install the correct executable depending on your OS
-	- If unable to download AliView with the program files depending on your OS,
-	You can use `conda`
-	
-	```
-	conda create -n aliview -c conda-forge -c bioconda aliview
-	```
 
 3. Installing TempEst (https://tree.bio.ed.ac.uk/software/tempest/)
 
@@ -175,10 +169,38 @@ conda deactivate
 
 
 
-## Manually check and deduplicate sequences
+## Manually check the alignment and deduplicate sequences
 We will assess the alignment in `AliView` to identify any issues.
 
-Start the `AliView` Program and load the alignment file `ebov_aln.fasta`
+
+> **Note**
+
+- If you had downloaded the program file as given in the installation part:
+
+	Start the `AliView` Program and load the alignment file `ebov_aln.fasta`
+
+
+- If you **were unable** to download AliView with the program files depending on your OS,
+	You can use `conda`
+
+	- create a conda environment
+	```
+	conda create -n aliview -c conda-forge -c bioconda aliview
+	```
+
+	- activate the environmenta
+
+	```
+	conda activate aliview
+	```
+
+	- start the program and load the alignment file `ebov_aln.fasta`
+	```
+	aliview
+	```
+
+
+
 
 <br>
 <left><img src="img/Fig2.png" alt="Screenshot of AliView Alignment" width="1641"/></left>
