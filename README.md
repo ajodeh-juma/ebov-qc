@@ -96,6 +96,11 @@ mkdir -p ./{1_data,2_mafft,3_iqtree}
 		```
 		wc -l ./1_data/ebov_metadata.tsv
 		```
+	The genome size of the Ebola virus Mayinya strain is **18959**
+	https://www.ncbi.nlm.nih.gov/search/all/?term=AF086833
+
+
+	- **How many genome sequnces have the length of 18959**?
         
     - **What is the shortest sequence length in the metadata record `ebov_metadata.tsv`**
     
@@ -130,9 +135,6 @@ accessions and sampling dates
 
 2. Compute the percentage coverage of the genomes and only retain those that
    have >99% genome coverage
-
-   The genome size of the Ebola virus Mayinya strain is 18959
-   https://www.ncbi.nlm.nih.gov/search/all/?term=AF086833
    
    - get the minimum genome size to select
    
