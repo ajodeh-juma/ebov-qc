@@ -320,8 +320,4 @@ iqtree -s ./3_iqtree/ebov_aln_clean.fasta -m HKY -T 4 -bb 1000 -redo --prefix ./
 - What is the substitution rate of the Ebola sequences following exclusion of potential outliers?
 - When did the Ebola outbreak of in Sierra Leone start?
 
-
-
-We conclude here that the Ebola virus phylogeny exhibits a moderate association between genetic distances and sampling dates and is hence suitable for phylogenetic molecular clock analysis in BEAST.
-
-In this case, the rate estimate amounts to 1.13×10−3 substitutions per site per year and the origin is approximately March 2014, which both match previous estimates for Ebola virus in Sierra Leone (Dudas and Rambaut 2014; Dudas et al. 2017).
+Compare your results with what was reported by Dudas and Rambaut 2014 and Dudas et al. 2017.
