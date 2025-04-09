@@ -100,7 +100,7 @@ mkdir -p ./{1_data,2_mafft,3_iqtree}
 	https://www.ncbi.nlm.nih.gov/search/all/?term=AF086833
 
 
-	- **How many genome sequnces have the length of 18959**?
+	- **How many genome sequences have the length of 18959**?
         
     - **What is the shortest sequence length in the metadata record `ebov_metadata.tsv`**
     
